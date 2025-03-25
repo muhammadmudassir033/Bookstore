@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Picture from "../assets/images/picture.png";
+ import Back from "../assets/images/back.jpg";
 import Logo from "../assets/images/Logo.png";
 
 function Login() {
@@ -47,12 +47,12 @@ function Login() {
         {/* Background Image Section */}
         <div
           className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ backgroundImage: `url(${Picture})` }}
+          style={{ backgroundImage: `url(${BackImage})` }}
         ></div>
 
         {/* Login Form Section */}
         <div className="w-full p-8 lg:w-1/2">
-          <img src={Logo} alt="Logo" className="mx-auto h-12 mb-4" />
+          <img src={LogoImage} alt="Logo" className="mx-auto h-12 mb-4" />
           <p className="text-xl text-gray-600 text-center">Welcome back!</p>
 
           {error && (

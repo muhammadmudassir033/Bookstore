@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Picture from "../assets/images/picture.png";
+import BackImage from "../assets/images/back.jpg";
 import Logo from "../assets/images/Logo.png";
 
 function Register() {
@@ -57,9 +57,9 @@ function Register() {
         {/* Background Image Section */}
         <div
           className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ backgroundImage: `url(${Picture})` }}
+          style={{ backgroundImage: `url(${BackImage})` }}
         ></div>
-        mmm
+      
 
         {/* Registration Form Section */}
         <div className="w-full p-8 lg:w-1/2">
