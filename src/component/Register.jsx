@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BackImage from "../assets/images/back.jpg";
+import Picture from "../assets/images/picture.png";
 import Logo from "../assets/images/Logo.png";
 
 function Register() {
@@ -26,7 +26,7 @@ function Register() {
     
     // Validation
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      setError("Passwords do not match"); 
       return;
     }
 
@@ -57,7 +57,7 @@ function Register() {
         {/* Background Image Section */}
         <div
           className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ backgroundImage: `url(${BackImage})` }}
+          style={{ backgroundImage: `url(${Picture})` }}
         ></div>
       
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
- import Back from "../assets/images/back.jpg";
+ import Picture from "../assets/images/picture.png";
 import Logo from "../assets/images/Logo.png";
 
 function Login() {
@@ -35,7 +35,7 @@ function Login() {
       // Store current user in local storage
       localStorage.setItem("currentUser", JSON.stringify(user));
       // Redirect to dashboard or home page
-      navigate("/dashboard");
+      navigate("/Home");
     } else {
       setError("Invalid email or password");
     }
@@ -47,12 +47,12 @@ function Login() {
         {/* Background Image Section */}
         <div
           className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ backgroundImage: `url(${BackImage})` }}
+          style={{ backgroundImage: `url(${Picture})` }}
         ></div>
 
         {/* Login Form Section */}
         <div className="w-full p-8 lg:w-1/2">
-          <img src={LogoImage} alt="Logo" className="mx-auto h-12 mb-4" />
+          <img src={Logo} alt="Logo" className="mx-auto h-12 mb-4" />
           <p className="text-xl text-gray-600 text-center">Welcome back!</p>
 
           {error && (
