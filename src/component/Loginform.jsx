@@ -47,12 +47,12 @@ function Login() {
         {/* Background Image Section */}
         <div
           className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ backgroundImage: `url(${BackImage})` }}
+          style={{ backgroundImage: `url(${Back})` }}
         ></div>
 
         {/* Login Form Section */}
         <div className="w-full p-8 lg:w-1/2">
-          <img src={LogoImage} alt="Logo" className="mx-auto h-12 mb-4" />
+          <img src={Logo} alt="Logo" className="mx-auto h-12 mb-4" />
           <p className="text-xl text-gray-600 text-center">Welcome back!</p>
 
           {error && (
