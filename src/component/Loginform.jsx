@@ -47,7 +47,7 @@ function Login() {
         {/* Background Image Section */}
         <div
           className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ backgroundImage: `url(${Picture})` }}
+          style={{ backgroundImage: `url(${Picture})`  }}
         ></div>
 
         {/* Login Form Section */}
