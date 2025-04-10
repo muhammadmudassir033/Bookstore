@@ -4,6 +4,7 @@ import Login from "./component/Loginform";
 import Register from "../src/component/Register";  
 import Home from "./component/Home";
 import Navbar from "../src/component/Navbar";
+import Details from "../src/component/Details";
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -36,6 +37,7 @@ function App() {
             </Layout>
           } 
         />
+         <Route path="/book/:id" element={<Details />} />
         
         {/* 404 fallback - redirect to Login */}  
         <Route path="*" element={<Navigate to="/Login" />} />
