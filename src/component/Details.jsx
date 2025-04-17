@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { children, bestSelling, classic } from "../assets/utils/book";
 
 debugger
-const booksData = [...children, ...bestSelling, ...classic];
+const booksData = [...children, ...bestSelling,  ...classic];
 
 const BookDetails = () => {
   const { id } = useParams();
