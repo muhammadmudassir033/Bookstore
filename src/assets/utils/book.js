@@ -5,7 +5,7 @@ import Book4Image from "../images/book4.png";
 import class1Image from "../images/class1.png";
 import class2Image from "../images/class2.png";
 import class3Image from "../images/class3.png";
-import Class4Image from "../images/Class4.png";
+import Class4Image from "../images/class4.png";
 import Ch1Image from "../images/Ch1.jpg";
 import Chi2Image from "../images/Chi2.jpg";
 import Chi3Image from "../images/Chi3.jpg";
