@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
- import Picture from "../assets/images/picture.png";
+import Picture from "../assets/images/Picture.png";
 import Logo from "../assets/images/Logo.png";
 
 function Login() {
@@ -21,10 +21,10 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Get users from local storage
     const users = JSON.parse(localStorage.getItem("users")) || [];
-    
+
     // Find user with matching email and password
     const user = users.find(
       (user) =>
@@ -47,7 +47,7 @@ function Login() {
         {/* Background Image Section */}
         <div
           className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ backgroundImage: `url(${Picture})`  }}
+          style={{ backgroundImage: `url(${Picture})` }}
         ></div>
 
         {/* Login Form Section */}
