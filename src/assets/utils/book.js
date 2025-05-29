@@ -97,7 +97,7 @@ export const bestSelling = [
     title: "1988",
     author: "George  Orwell",
     price: "$39.99",
-    image: Book3Image,
+    image: Book3Image, 
     description:
       "The Alchemist is a story of following one's dreams to find one's purpose in life. The main character, Santiago, is a Spanish shepherd boy who leaves behind his job and family to search for his Personal Legend, a hidden treasure that he believes is buried near the pyramids in Egypt...",
     publisher: "HarperOne",

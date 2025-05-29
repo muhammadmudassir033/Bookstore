@@ -34,10 +34,25 @@ function Login() {
     if (user) {
       // Store current user in local storage
       localStorage.setItem("currentUser", JSON.stringify(user));
-      // Redirect to dashboard or home page
-      navigate("/Home");
+      
+      // Redirect based on role
+      if (user.role === 'admin') {
+        navigate("/admin-dashboard");
+      } else {
+        navigate("/Home");
+      }
     } else {
-      setError("Invalid email or password");
+      // Check for admin credentials
+      if (formData.email === "admin@bookstore.com" && formData.password === "admin123") {
+        const adminUser = {
+          email: formData.email,
+          role: 'admin'
+        };
+        localStorage.setItem("currentUser", JSON.stringify(adminUser));
+        navigate("/admin-dashboard");
+      } else {
+        setError("Invalid email or password");
+      }
     }
   };
 
@@ -52,7 +67,6 @@ function Login() {
 
         {/* Login Form Section */}
         <div className="w-full p-8 lg:w-1/2">
-          <img src={Logo} alt="Logo" className="mx-auto h-12 mb-4" />
           <img src={Logo} alt="Logo" className="mx-auto h-12 mb-4" />
           <p className="text-xl text-gray-600 text-center">Welcome back!</p>
 

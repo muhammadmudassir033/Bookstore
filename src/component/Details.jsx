@@ -8,8 +8,8 @@ const booksData = [...children, ...bestSelling,  ...classic];
 
 const BookDetails = () => {
   const { id } = useParams();
-  const book = booksData.find((b) => b.id === parseInt(id));
-  const [showCart, setShowCart] = useState(false);
+  const book = booksData.find((b) => b.id === parseInt(id)); 
+  const [showCart, setShowCart] = useState(false);  
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -23,10 +23,9 @@ const BookDetails = () => {
   });
 
   if (!book) {
-    return <div>Book not found</div>;
+    return <div>Book not found</div>; 
   }
 
-  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -36,10 +35,59 @@ const BookDetails = () => {
 
   const handlePlaceOrder = (e) => {
     e.preventDefault();
-    // Handle order submission here
-    console.log("Order placed:", formData);
+    
+    // Get current user
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+      alert('Please login to place an order');
+      return;
+    }
+
+    // Create order object
+    const order = {
+      id: Date.now(),
+      customerName: `${formData.firstName} ${formData.lastName}`,
+      items: [book.title],
+      total: book.price,
+      status: 'Pending',
+      date: new Date().toISOString().split('T')[0],
+      shippingAddress: {
+        address: formData.address,
+        city: formData.city,
+        state: formData.state,
+        zip: formData.zip
+      },
+      paymentInfo: {
+        cardNumber: formData.cardNumber.slice(-4),
+        expDate: formData.expDate
+      }
+    };
+
+    // Get existing orders from localStorage
+    const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    
+    // Add new order
+    const updatedOrders = [...existingOrders, order];
+    
+    // Save to localStorage
+    localStorage.setItem('orders', JSON.stringify(updatedOrders));
+
+    // Reset form and close cart
+    setFormData({
+      firstName: "",
+      lastName: "",
+      address: "",
+      city: "",
+      state: "",
+      zip: "",
+      cardNumber: "",
+      expDate: "",
+      cvv: "",
+    });
     setShowCart(false);
-    // You would typically send this data to your backend
+
+    // Show success message
+    alert('Order placed successfully!');
   };
 
   return (
