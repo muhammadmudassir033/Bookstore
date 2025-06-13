@@ -6,6 +6,8 @@ import Home from "./component/Home";
 import Navbar from "../src/component/Navbar";
 import Details from "../src/component/Details";
 import AdminDashboard from "./component/AdminDashboard";
+import Settings from './pages/Settings';
+import Orders from './pages/Orders';
 
 const Layout = ({ children, searchTerm, setSearchTerm }) => {
   const location = useLocation();
@@ -70,6 +72,8 @@ function App() {
             </ProtectedRoute>
           } 
         />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/orders" element={<Orders />} />
         <Route path="*" element={<Navigate to="/Login" />} /> 
       </Routes>
     </Router>

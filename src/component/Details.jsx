@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { children, bestSelling, classic } from "../assets/utils/book";
 
-debugger
-const booksData = [...children, ...bestSelling,  ...classic];
+debugger;
+const booksData = [...children, ...bestSelling, ...classic];
 
 const BookDetails = () => {
   const { id } = useParams();
-  const book = booksData.find((b) => b.id === parseInt(id)); 
-  const [showCart, setShowCart] = useState(false);  
+  const book = booksData.find((b) => b.id === parseInt(id));
+  const [showCart, setShowCart] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -23,23 +23,24 @@ const BookDetails = () => {
   });
 
   if (!book) {
-    return <div>Book not found</div>; 
+    return <div>Book not found</div>;
   }
 
-    const { name, value } = e.target;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;   
     setFormData({
       ...formData,
       [name]: value,
-    });
-  };
+    }); 
+  };  
 
-  const handlePlaceOrder = (e) => {
-    e.preventDefault();
-    
+  const handlePlaceOrder = (e) => {   
+    e.preventDefault(); 
+
     // Get current user
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (!currentUser) {
-      alert('Please login to place an order');
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    if (!currentUser) { 
+      alert("Please login to place an order");
       return;
     }
 
@@ -49,28 +50,28 @@ const BookDetails = () => {
       customerName: `${formData.firstName} ${formData.lastName}`,
       items: [book.title],
       total: book.price,
-      status: 'Pending',
-      date: new Date().toISOString().split('T')[0],
+      status: "Pending",
+      date: new Date().toISOString().split("T")[0],
       shippingAddress: {
         address: formData.address,
         city: formData.city,
         state: formData.state,
-        zip: formData.zip
+        zip: formData.zip,
       },
       paymentInfo: {
         cardNumber: formData.cardNumber.slice(-4),
-        expDate: formData.expDate
-      }
+        expDate: formData.expDate,
+      },
     };
 
     // Get existing orders from localStorage
-    const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
-    
+    const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
+
     // Add new order
     const updatedOrders = [...existingOrders, order];
-    
+
     // Save to localStorage
-    localStorage.setItem('orders', JSON.stringify(updatedOrders));
+    localStorage.setItem("orders", JSON.stringify(updatedOrders));
 
     // Reset form and close cart
     setFormData({
@@ -87,7 +88,7 @@ const BookDetails = () => {
     setShowCart(false);
 
     // Show success message
-    alert('Order placed successfully!');
+    alert("Order placed successfully!");
   };
 
   return (
@@ -135,19 +136,50 @@ const BookDetails = () => {
                   {book.price}
                 </span>
                 <span className="text-sm font-medium text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 px-3 py-1 rounded-full">
-                  In Stock
+                  In Stock  
                 </span>
               </div>
-              <button
-                onClick={() => setShowCart(true)}
-                className="bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-2 px-4 
-             sm:py-2.5 sm:px-6 rounded-lg transition-all duration-200  
-             shadow hover:shadow-md active:scale-[0.98]
-             dark:bg-indigo-600 dark:hover:bg-indigo-700
-             focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                Buy Now
-              </button>
+              <div className="flex gap-3 w-full xs:w-auto">
+                <button
+                  onClick={() => {
+                    // Add to cart logic here
+                    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    const existingItem = cart.find(item => item.id === book.id);
+                    
+                    if (existingItem) { 
+                      existingItem.quantity += 1;
+                    } else {
+                      cart.push({
+                        id: book.id,
+                        title: book.title,
+                        price: book.price,
+                        image: book.image,
+                        quantity: 1
+                      });
+                    }
+                    
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    alert('Added to cart successfully!');
+                  }}
+                  className="flex-1 xs:flex-none xs:w-32 bg-white border-2 border-indigo-700 text-indigo-700 hover:bg-indigo-50 font-medium py-2 px-4 
+                    sm:py-2.5 sm:px-6 rounded-lg transition-all duration-200  
+                    shadow hover:shadow-md active:scale-[0.98]
+                    dark:bg-gray-800 dark:border-indigo-600 dark:text-indigo-400 dark:hover:bg-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  Add to Cart
+                </button>
+                <button
+                  onClick={() => setShowCart(true)}
+                  className="flex-1 xs:flex-none xs:w-32 bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-2 px-4 
+                    sm:py-2.5 sm:px-6 rounded-lg transition-all duration-200  
+                    shadow hover:shadow-md active:scale-[0.98]
+                    dark:bg-indigo-600 dark:hover:bg-indigo-700
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                >
+                  Buy Now
+                </button>
+              </div>
             </div>
           </div>
 

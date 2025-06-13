@@ -104,7 +104,7 @@ export default function BooksSection() {
                     className="text-red-500 hover:text-red-700"
                     onClick={() => handleDelete(book.id)}
                   >
-                    <FaTrash />
+                    <FaTrash />           
                   </button>
                 </td>
               </tr>
