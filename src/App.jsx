@@ -6,8 +6,6 @@ import Home from "./component/Home";
 import Navbar from "../src/component/Navbar";
 import Details from "../src/component/Details";
 import AdminDashboard from "./component/AdminDashboard";
-import Settings from './pages/Settings';
-import Orders from './pages/Orders';
 
 const Layout = ({ children, searchTerm, setSearchTerm }) => {
   const location = useLocation();
@@ -23,15 +21,29 @@ const Layout = ({ children, searchTerm, setSearchTerm }) => {
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  
   if (!currentUser) {
     return <Navigate to="/Login" replace />;
   }
-
   if (requiredRole && currentUser.role !== requiredRole) {
+    // If user tries to access the wrong dashboard, redirect to their correct dashboard
+    if (currentUser.role === 'admin') {
+      return <Navigate to="/admin-dashboard" replace />;
+    } else {
+      return <Navigate to="/Home" replace />;
+    }
+  }
+  return children;
+};
+
+const PublicRoute = ({ children }) => {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if (currentUser) {
+    // Redirect to dashboard based on role
+    if (currentUser.role === 'admin') {
+      return <Navigate to="/admin-dashboard" replace />;
+    }
     return <Navigate to="/Home" replace />;
   }
-
   return children;
 };
 
@@ -42,28 +54,30 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Navigate to="/Login" replace />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Register" element={<Register />} />  
+        <Route path="/Login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="/Register" element={<PublicRoute><Register /></PublicRoute>} />  
 
-        {/* All routes below require login */}
+        {/* User Home - only for users */}
         <Route 
           path="/Home" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="user">
               <Layout searchTerm={searchTerm} setSearchTerm={setSearchTerm}>
                 <Home searchTerm={searchTerm} />
               </Layout>
             </ProtectedRoute>
           } 
         />
+        {/* Book details - only for users */}
         <Route 
           path="/book/:id" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="user">
               <Details />
             </ProtectedRoute>
           } 
         />
+        {/* Admin Dashboard - only for admin */}
         <Route 
           path="/admin-dashboard" 
           element={
@@ -72,9 +86,14 @@ function App() {
             </ProtectedRoute>
           } 
         />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/orders" element={<Orders />} />
-        <Route path="*" element={<Navigate to="/Login" />} /> 
+        {/* Catch-all: if logged in, redirect to correct dashboard; else to login */}
+        <Route path="*" element={
+          JSON.parse(localStorage.getItem('currentUser'))
+            ? (JSON.parse(localStorage.getItem('currentUser')).role === 'admin'
+                ? <Navigate to="/admin-dashboard" replace />
+                : <Navigate to="/Home" replace />)
+            : <Navigate to="/Login" replace />
+        } />
       </Routes>
     </Router>
   );

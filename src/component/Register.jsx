@@ -44,6 +44,7 @@ function Register() {
       name: formData.name,
       email: formData.email,
       password: formData.password,
+      role: 'user',
     };
 
     localStorage.setItem("users", JSON.stringify([...existingUsers, newUser]));
@@ -57,14 +58,14 @@ function Register() {
         {/* Background Image Section */}
          <div
           className="hidden lg:block lg:w-1/2 bg-cover"
-          style={{ backgroundImage: `url(${Picture})` }}
+          style={{ backgroundImage: `url(${Picture})` }}  
         ></div>  
       
 
         {/* Registration Form Section */}
         <div className="w-full p-8 lg:w-1/2">
           <img src={Logo} alt="Logo" className="mx-auto h-12 mb-4" />
-          <p className="text-xl text-gray-600 text-center">Create your account!</p>
+          <p className="text-xl text-gray-600 text-center">Create your account!</p> 
 
           {error && (
             <div className="mt-4 p-2 bg-red-100 text-red-700 text-sm rounded">

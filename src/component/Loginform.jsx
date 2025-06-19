@@ -45,6 +45,7 @@ function Login() {
       // Check for admin credentials
       if (formData.email === "admin@bookstore.com" && formData.password === "admin123") {
         const adminUser = {
+          name: "Admin User",
           email: formData.email,
           role: 'admin'
         };

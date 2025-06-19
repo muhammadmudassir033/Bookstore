@@ -1,16 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { FaEye, FaTrash, FaEdit } from 'react-icons/fa';
-import { useDispatch, useSelector } from 'react-redux';
-import { setOrders, updateOrderStatus, deleteOrder }  from '../../store/slices/adminSlice';
-
-const statusColors = {
-  Delivered: 'bg-green-100 text-green-700',
-  Processing: 'bg-blue-100 text-blue-700',
-  Shipped: 'bg-purple-100 text-purple-700',
-  Pending: 'bg-yellow-100 text-yellow-700',
-};
-
-const statusOptions = ['Pending', 'Processing', 'Shipped', 'Delivered'];
+import React from 'react';
+import { FaTrash } from 'react-icons/fa';
 
 const OrdersSection = ({ orders, onDeleteOrder, onUpdateStatus }) => {
   const getStatusColor = (status) => {
@@ -112,4 +101,4 @@ const OrdersSection = ({ orders, onDeleteOrder, onUpdateStatus }) => {
   );
 };
 
-export default OrdersSection;
+export default OrdersSection; 

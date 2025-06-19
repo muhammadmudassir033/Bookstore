@@ -16,15 +16,14 @@ import { useNavigate } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa6';
 
 const AdminDashboard = () => {
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState([]); 
   const [books, setBooks] = useState([]);
   const [activeTab, setActiveTab] = useState("dashboard");
   const [showProfilePopup, setShowProfilePopup] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
   const popupRef = useRef(null);
-  const buttonRef = useRef(null);
-
+  const buttonRef = useRef(null);  
   useEffect(() => {
     const storedOrders = JSON.parse(localStorage.getItem("orders")) || [];
     const storedBooks = JSON.parse(localStorage.getItem("books")) || [];
@@ -96,13 +95,45 @@ const AdminDashboard = () => {
     navigate('/login');
   };
 
+  const handleEditBook = (book) => {
+    setActiveTab("addBook");
+    // Implement edit functionality
+  };
+
+  const handleDeleteBook = (bookId) => {
+    if (window.confirm('Are you sure?')) {
+      const updatedBooks = books.filter(book => book.id !== bookId);
+      setBooks(updatedBooks);
+      localStorage.setItem('books', JSON.stringify(updatedBooks));
+    }
+  };
+
+  const handleDeleteOrder = (orderId) => {
+    if (window.confirm('Are you sure you want to delete this order?')) {
+      const updatedOrders = orders.filter(order => order.id !== orderId);
+      setOrders(updatedOrders);
+      localStorage.setItem('orders', JSON.stringify(updatedOrders));
+    }
+  };
+
+  const handleUpdateOrderStatus = (orderId, newStatus) => {
+    const updatedOrders = orders.map(order => {
+      if (order.id === orderId) {
+        return { ...order, status: newStatus };
+      }
+      return order;
+    });
+    setOrders(updatedOrders);
+    localStorage.setItem('orders', JSON.stringify(updatedOrders));
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50 font-sans text-base">
       {/* Sidebar */}
       <aside className="w-60 bg-[#1a2332] flex flex-col justify-between fixed h-full">
         <div>
           <div className="px-8 py-8 text-3xl font-extrabold tracking-widest text-white font-mono uppercase drop-shadow-lg select-none">
-            BookStore <span className="text-blue-400">Admin</span>
+            BookStore <span className="text-blue-400"></span>
           </div>
           <nav className="flex flex-col gap-1 mt-4">
             <button
@@ -111,7 +142,7 @@ const AdminDashboard = () => {
               }`}
               onClick={() => setActiveTab("dashboard")}
             >
-              <FaBox className="text-lg" /> <span>Dashboard</span>
+              <FaBox className="text-lg" /> <span>Dashboard</span>   
             </button>
             <button
               className={`flex items-center gap-3 px-8 py-2.5 text-gray-300 hover:bg-[#232e43] hover:text-white rounded transition ${
@@ -145,25 +176,27 @@ const AdminDashboard = () => {
               </span>
             </div>
             <div className="flex-1 text-left">
-              <p className="text-sm font-semibold tracking-wide">{currentUser?.name}</p>
+              <p className="text-sm font-semibold tracking-wide">
+                {currentUser?.email === 'admin@bookstore.com' ? 'Admin' : currentUser?.name}
+              </p>
               <div className="flex items-center gap-2 mt-0.5">
-                <span className="w-2 h-2 rounded-full bg-green-400"></span>
-                <p className="text-sm text-gray-300">Admin</p>
-              </div>
+                {/* <span className="w-2 h-2 rounded-full bg-green-400"></span> */}   
+                {/* <p className="text-sm text-gray-300">Admin</p> */} 
+              </div> 
             </div>
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               className={`h-5 w-5 text-gray-400 transition-transform duration-200 ${showProfilePopup ? 'rotate-180' : ''}`} 
               fill="none" 
               viewBox="0 0 24 24" 
-              stroke="currentColor"
+              stroke="currentColor" 
             >
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
-          </button>
+          </button> 
 
-          {/* Profile Popup */}
-          {showProfilePopup && currentUser && (
+          {/* Profile Popup */}                                                                                                      
+          {showProfilePopup && currentUser && (   
             <div
               ref={popupRef}
               className="absolute bottom-full left-0 mb-2 w-56 bg-white rounded-xl shadow-xl py-2 z-50 border border-gray-100"
@@ -176,11 +209,13 @@ const AdminDashboard = () => {
                     </span> 
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-gray-900">{currentUser.name}</p>
+                    <p className="text-sm font-semibold text-gray-900">
+                      {currentUser.email === 'admin@bookstore.com' ? 'Admin' : currentUser.name}
+                    </p>
                     <p className="text-xs text-gray-500">{currentUser.email}</p>
                   </div>
-                </div>
-              </div>
+                </div>  
+              </div> 
               <button
                 onClick={handleLogout}   
                 className="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors"
@@ -196,19 +231,21 @@ const AdminDashboard = () => {
       </aside>
 
       {/* Main Content */} 
-      <main className="flex-1 ml-60 p-10">   
+      <main className="flex-1 ml-60 px-8 py-5">   
         {/* Admin Header */}
-        <header className="bg-white shadow-sm"> 
+        {/**
+        <header className="bg-white shadow-sm border-b border-gray-200"> 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4"> 
             <div className="flex justify-between items-center">
               <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
             </div>
           </div>
         </header>
+        **/}
 
         {activeTab === "dashboard" && (
-          <div>
-            <h1 className="text-3xl font-bold text-[#1a2332] mb-1">
+          <div className="">
+            <h1 className="text-3xl font-extrabold text-[#1a2332] mb-2 tracking-tight">
               Dashboard
             </h1>
             <p className="text-gray-500 mb-8 text-lg">
@@ -324,10 +361,30 @@ const AdminDashboard = () => {
           </div>
         )}
         {activeTab === "addBook" && (
-          <AddBookSection onCancel={() => setActiveTab("dashboard")} />
+          <AddBookSection 
+            onCancel={() => setActiveTab("dashboard")}
+            onAddBook={(newBook) => {
+              const updatedBooks = [...books, newBook];
+              setBooks(updatedBooks);
+              localStorage.setItem('books', JSON.stringify(updatedBooks));
+              setActiveTab("dashboard");
+            }}
+          />
         )}
-        {activeTab === "orders" && <OrdersSection />}
-        {activeTab === "books" && <BooksSection />}
+        {activeTab === "orders" && (
+          <OrdersSection 
+            orders={orders}
+            onDeleteOrder={handleDeleteOrder}
+            onUpdateStatus={handleUpdateOrderStatus}
+          />
+        )}
+        {activeTab === "books" && (
+          <BooksSection 
+            books={books}
+            onEditBook={handleEditBook}
+            onDeleteBook={handleDeleteBook}
+          />
+        )}
       </main>
     </div>
   );

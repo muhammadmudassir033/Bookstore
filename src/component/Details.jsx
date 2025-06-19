@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { children, bestSelling, classic } from "../assets/utils/book";
 
-debugger;
+// debugger;
 const booksData = [...children, ...bestSelling, ...classic];
 
 const BookDetails = () => {
